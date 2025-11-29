@@ -1,13 +1,11 @@
-mod day1;
-mod day2a;
+mod day01;
+mod day02;
 
 use anyhow::{Result, anyhow};
 use clap::Parser;
 use clap::ValueEnum;
 use std::fs;
 use strum_macros::Display;
-
-use crate::day1::run_day_1;
 
 #[derive(Clone, Debug, Display, Parser, ValueEnum)]
 #[clap(rename_all = "kebab_case")]
@@ -36,7 +34,8 @@ fn main() -> Result<()> {
     let input = fs::read_to_string("input.txt")?;
 
     match args.day {
-        1 => run_day_1(args.part, &input)?,
+        1 => day01::run_day_1(args.part, &input)?,
+        2 => day02::run_day_2(args.part, &input)?,
         _ => return Err(anyhow!("Invalid argument for day")),
     }
 

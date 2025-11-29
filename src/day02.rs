@@ -1,5 +1,18 @@
+use crate::Part;
 use anyhow::Result;
-use std::fs;
+
+pub fn run_day_2(part: Part, input: &String) -> Result<()> {
+    match part {
+        Part::A => general(get_keypad(KeypadType::A), input)?,
+        Part::B => general(get_keypad(KeypadType::B), input)?,
+        Part::Both => {
+            general(get_keypad(KeypadType::A), input)?;
+            general(get_keypad(KeypadType::B), input)?;
+        }
+    }
+
+    Ok(())
+}
 
 struct Position {
     x: isize,
@@ -26,7 +39,7 @@ enum Direction {
     Right,
 }
 
-const KEYPAD_NULL_LABEL: &str = "";
+const NOL: &str = "";
 
 struct Keypad {
     labels: Vec<Vec<String>>,
@@ -61,7 +74,7 @@ impl Keypad {
 
         let char = &row[new_pos.x as usize];
 
-        if char.as_str() == KEYPAD_NULL_LABEL {
+        if char.as_str() == NOL {
             return;
         }
 
@@ -69,18 +82,43 @@ impl Keypad {
     }
 }
 
-fn main() -> Result<()> {
-    let raw_data = fs::read_to_string("input.txt")?;
+enum KeypadType {
+    A,
+    B,
+}
 
-    let instructions = raw_data.trim().split("\n");
+macro_rules! string_vec {
+    ( $( $x:expr ),* ) => {
+        vec![ $( String::from($x) ),* ]
+    };
+}
 
-    let labels = vec![
-        vec![String::from("1"), String::from("1"), String::from("1")],
-        vec![String::from("2"), String::from("3"), String::from("4")],
-        vec![String::from("5"), String::from("6"), String::from("7")],
-    ];
+fn get_keypad(keypad_type: KeypadType) -> Keypad {
+    let labels = match keypad_type {
+        KeypadType::A => vec![
+            string_vec!("1", "2", "3"),
+            string_vec!("4", "5", "6"),
+            string_vec!("7", "8", "9"),
+        ],
+        KeypadType::B => vec![
+            string_vec!(NOL, NOL, "1", NOL, NOL),
+            string_vec!(NOL, "2", "3", "4", NOL),
+            string_vec!("5", "6", "7", "8", "9"),
+            string_vec!(NOL, "A", "B", "C", NOL),
+            string_vec!(NOL, NOL, "D", NOL, NOL),
+        ],
+    };
 
-    let keypad = Keypad::new(labels, Position::new(1, 1));
+    let position = match keypad_type {
+        KeypadType::A => Position::new(1, 1),
+        KeypadType::B => Position::new(2, 2),
+    };
+
+    Keypad::new(labels, position)
+}
+
+fn general(keypad: Keypad, input: &String) -> Result<()> {
+    let instructions = input.trim().split("\n");
 
     for instruction in instructions {
         for char_index in 0..instruction.len() {}
