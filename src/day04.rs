@@ -23,12 +23,12 @@ fn formatted_line(line: &str) -> Result<(Vec<&str>, usize, &str)> {
     let mut split_line = line.split("[");
     let mut name: Vec<&str> = split_line
         .next()
-        .ok_or(anyhow!("invalid input."))?
+        .ok_or(anyhow!("invalid input"))?
         .split("-")
         .collect();
-    let sector_id: usize = name.last().ok_or(anyhow!("invalid input."))?.parse()?;
+    let sector_id: usize = name.last().ok_or(anyhow!("invalid input"))?.parse()?;
     name.pop();
-    let checksum = &split_line.next().ok_or(anyhow!("invalid input."))?[0..5];
+    let checksum = &split_line.next().ok_or(anyhow!("invalid input"))?[0..5];
     Ok((name, sector_id, checksum))
 }
 
