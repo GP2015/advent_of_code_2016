@@ -40,7 +40,7 @@ fn main() -> Result<()> {
         2 => day02::run(args.part, &input)?,
         3 => day03::run(args.part, &input)?,
         4 => day04::run(args.part, &input)?,
-        _ => return Err(anyhow!("Invalid argument for day")),
+        _ => return Err(anyhow!("invalid argument for day")),
     }
 
     Ok(())

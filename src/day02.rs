@@ -131,7 +131,7 @@ fn general(mut keypad: Keypad, input: &String) -> Result<()> {
                 'R' => keypad.shift(Direction::Right),
                 'U' => keypad.shift(Direction::Up),
                 'D' => keypad.shift(Direction::Down),
-                _ => return Err(anyhow!("Invalid input: {}.", c)),
+                _ => return Err(anyhow!("invalid input: {}.", c)),
             }
         }
 

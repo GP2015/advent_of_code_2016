@@ -27,7 +27,7 @@ fn part_a(input: &String) -> Result<()> {
         dir = match turn {
             "R" => [dir[1], -dir[0]],
             "L" => [-dir[1], dir[0]],
-            _ => return Err(anyhow!("Invalid input.")),
+            _ => return Err(anyhow!("invalid input.")),
         };
 
         for i in 0..2 {
@@ -54,7 +54,7 @@ fn part_b(input: &String) -> Result<()> {
         dir = match turn {
             "R" => [dir[1], -dir[0]],
             "L" => [-dir[1], dir[0]],
-            _ => return Err(anyhow!("Invalid input.")),
+            _ => return Err(anyhow!("invalid input.")),
         };
 
         for _ in 0..steps {
