@@ -3,11 +3,11 @@ use anyhow::Result;
 
 pub fn run(part: Part, input: &String) -> Result<()> {
     match part {
-        Part::A => part_a(input)?,
-        Part::B => part_b(input)?,
+        Part::A => part_a(input),
+        Part::B => part_b(input),
         Part::Both => {
-            part_a(input)?;
-            part_b(input)?;
+            part_a(input);
+            part_b(input);
         }
     }
 
@@ -32,7 +32,7 @@ fn format_input(input: &String) -> Vec<Vec<usize>> {
         .collect()
 }
 
-fn part_a(input: &String) -> Result<()> {
+fn part_a(input: &String) {
     let input: Vec<Vec<usize>> = format_input(input);
     let mut count = 0;
 
@@ -43,10 +43,9 @@ fn part_a(input: &String) -> Result<()> {
     }
 
     println!("Day 3 Part A: {}", count);
-    Ok(())
 }
 
-fn part_b(input: &String) -> Result<()> {
+fn part_b(input: &String) {
     let input: Vec<Vec<usize>> = format_input(input);
     let mut count = 0;
 
@@ -63,5 +62,4 @@ fn part_b(input: &String) -> Result<()> {
     }
 
     println!("Day 3 Part B: {}", count);
-    Ok(())
 }
