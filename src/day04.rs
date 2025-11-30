@@ -108,10 +108,10 @@ fn part_b(input: &String) -> Result<()> {
                 .collect();
 
             output_stream.write(&shifted_bytes)?;
-            output_stream.write(" ".as_bytes())?;
+            output_stream.write(b" ")?;
         }
 
-        output_stream.write("\n".as_bytes())?;
+        output_stream.write(b"\n")?;
     }
 
     println!("Day 4 Part B: See list of room names in output.txt");
