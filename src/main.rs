@@ -1,5 +1,6 @@
 mod day01;
 mod day02;
+mod day03;
 
 use anyhow::{Result, anyhow};
 use clap::Parser;
@@ -36,6 +37,7 @@ fn main() -> Result<()> {
     match args.day {
         1 => day01::run_day_1(args.part, &input)?,
         2 => day02::run_day_2(args.part, &input)?,
+        3 => day03::run_day_3(args.part, &input)?,
         _ => return Err(anyhow!("Invalid argument for day")),
     }
 
