@@ -1,6 +1,7 @@
 mod day01;
 mod day02;
 mod day03;
+mod day04;
 
 use anyhow::{Result, anyhow};
 use clap::Parser;
@@ -35,9 +36,9 @@ fn main() -> Result<()> {
     let input = fs::read_to_string("input.txt")?;
 
     match args.day {
-        1 => day01::run_day_1(args.part, &input)?,
-        2 => day02::run_day_2(args.part, &input)?,
-        3 => day03::run_day_3(args.part, &input)?,
+        1 => day01::run(args.part, &input)?,
+        2 => day02::run(args.part, &input)?,
+        3 => day03::run(args.part, &input)?,
         _ => return Err(anyhow!("Invalid argument for day")),
     }
 

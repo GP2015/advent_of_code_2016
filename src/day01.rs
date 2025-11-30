@@ -1,7 +1,7 @@
 use crate::Part;
 use anyhow::{Result, anyhow};
 
-pub fn run_day_1(part: Part, input: &String) -> Result<()> {
+pub fn run(part: Part, input: &String) -> Result<()> {
     match part {
         Part::A => part_a(input)?,
         Part::B => part_b(input)?,
