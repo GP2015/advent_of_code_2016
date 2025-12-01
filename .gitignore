@@ -1,2 +1,3 @@
-debug
-target
+/target
+/input.txt
+/output.txt
