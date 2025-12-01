@@ -1,10 +1,10 @@
+use crate::Part;
+use crate::common::{alphabet_index_from_char, char_from_alphabet_index};
+use anyhow::{Result, anyhow};
 use std::{
     fs::File,
     io::{BufWriter, Write},
 };
-
-use crate::Part;
-use anyhow::{Result, anyhow};
 
 pub fn run(part: Part, input: &String) -> Result<()> {
     match part {
@@ -70,14 +70,6 @@ fn is_real_room(name: &Vec<&str>, checksum: &str) -> Result<bool> {
     }
 
     Ok(false)
-}
-
-fn alphabet_index_from_char(c: char) -> usize {
-    (c as usize) - ('a' as usize)
-}
-
-fn char_from_alphabet_index(index: usize) -> char {
-    (index as u8 + 'a' as u8) as char
 }
 
 fn shifted_char(c: char, amount: usize) -> char {
