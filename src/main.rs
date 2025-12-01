@@ -5,6 +5,7 @@ mod day03;
 mod day04;
 mod day05;
 mod day06;
+mod day07;
 
 use anyhow::{Result, anyhow};
 use clap::{Parser, ValueEnum};
@@ -44,6 +45,7 @@ fn main() -> Result<()> {
         4 => day04::run(args.part, &input)?,
         5 => day05::run(args.part, &input)?,
         6 => day06::run(args.part, &input)?,
+        7 => day07::run(args.part, &input)?,
         _ => return Err(anyhow!("invalid argument for day")),
     }
 
