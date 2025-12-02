@@ -1,4 +1,4 @@
-use anyhow::Result;
+use anyhow::{Result, anyhow};
 
 fn is_triangle(sides: &[usize]) -> bool {
     !(sides[0] + sides[1] <= sides[2]
@@ -23,6 +23,10 @@ pub fn part_a(input: &String) -> Result<()> {
     let mut count = 0;
 
     for tri in input {
+        if tri.len() != 3 {
+            return Err(anyhow!("invalid character in input"));
+        }
+
         if is_triangle(tri.as_slice()) {
             count += 1;
         }
