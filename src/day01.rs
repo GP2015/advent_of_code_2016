@@ -12,7 +12,7 @@ fn update_dir(dir: &mut [isize; 2], turn: &str) -> Result<()> {
     *dir = match turn {
         "R" => [dir[1], -dir[0]],
         "L" => [-dir[1], dir[0]],
-        _ => return Err(anyhow!("invalid direction in input")),
+        _ => return Err(anyhow!("invalid direction in input: {}", turn)),
     };
     Ok(())
 }
