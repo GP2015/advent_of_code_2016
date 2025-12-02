@@ -25,16 +25,10 @@ enum Direction {
     Right,
 }
 
-const NOL: &str = "";
-
-macro_rules! string_vec {
-    ( $( $x:expr ),* ) => {
-        vec![ $( String::from($x) ),* ]
-    };
-}
+const NOL: char = ' ';
 
 struct Keypad {
-    labels: Vec<Vec<String>>,
+    labels: Vec<Vec<char>>,
     position: Position,
 }
 
@@ -42,9 +36,9 @@ impl Keypad {
     fn type_a() -> Self {
         Self {
             labels: vec![
-                string_vec!("1", "2", "3"),
-                string_vec!("4", "5", "6"),
-                string_vec!("7", "8", "9"),
+                vec!['1', '2', '3'],
+                vec!['4', '5', '6'],
+                vec!['7', '8', '9'],
             ],
             position: Position::new(1, 1),
         }
@@ -53,11 +47,11 @@ impl Keypad {
     fn type_b() -> Self {
         Self {
             labels: vec![
-                string_vec!(NOL, NOL, "1", NOL, NOL),
-                string_vec!(NOL, "2", "3", "4", NOL),
-                string_vec!("5", "6", "7", "8", "9"),
-                string_vec!(NOL, "A", "B", "C", NOL),
-                string_vec!(NOL, NOL, "D", NOL, NOL),
+                vec![NOL, NOL, '1', NOL, NOL],
+                vec![NOL, '2', '3', '4', NOL],
+                vec!['5', '6', '7', '8', '9'],
+                vec![NOL, 'A', 'B', 'C', NOL],
+                vec![NOL, NOL, 'D', NOL, NOL],
             ],
             position: Position::new(2, 2),
         }
@@ -81,16 +75,16 @@ impl Keypad {
             return;
         }
 
-        let char = &row[new_pos.x as usize];
+        let char = row[new_pos.x as usize];
 
-        if char.as_str() == NOL {
+        if char == NOL {
             return;
         }
 
         self.position = new_pos;
     }
 
-    fn get_label(&self) -> String {
+    fn get_label(&self) -> char {
         self.labels[self.position.y as usize][self.position.x as usize].clone()
     }
 }
@@ -105,11 +99,11 @@ fn general(mut keypad: Keypad, input: &String) -> Result<()> {
                 'R' => keypad.shift(Direction::Right),
                 'U' => keypad.shift(Direction::Up),
                 'D' => keypad.shift(Direction::Down),
-                _ => return Err(anyhow!("invalid input")),
+                _ => return Err(anyhow!("invalid character in input: {}", c)),
             }
         }
 
-        code += keypad.get_label().as_str();
+        code.push(keypad.get_label());
     }
 
     println!("{}", code);
