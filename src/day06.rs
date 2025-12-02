@@ -1,31 +1,5 @@
-use crate::Part;
 use crate::common::{alphabet_index_from_char, char_from_alphabet_index};
 use anyhow::{Result, anyhow};
-
-pub fn run(part: Part, input: &String) -> Result<()> {
-    match part {
-        Part::A => part_a(input)?,
-        Part::B => part_b(input)?,
-        Part::Both => {
-            part_a(input)?;
-            part_b(input)?;
-        }
-    }
-
-    Ok(())
-}
-
-fn part_a(input: &String) -> Result<()> {
-    print!("Day 6 Part A: ");
-    general(BoundType::Max, input)?;
-    Ok(())
-}
-
-fn part_b(input: &String) -> Result<()> {
-    print!("Day 6 Part B: ");
-    general(BoundType::Min, input)?;
-    Ok(())
-}
 
 enum BoundType {
     Min,
@@ -79,5 +53,17 @@ fn general(bound_type: BoundType, input: &String) -> Result<()> {
     }
 
     println!("{}", message);
+    Ok(())
+}
+
+pub fn part_a(input: &String) -> Result<()> {
+    print!("Day 6 Part A: ");
+    general(BoundType::Max, input)?;
+    Ok(())
+}
+
+pub fn part_b(input: &String) -> Result<()> {
+    print!("Day 6 Part B: ");
+    general(BoundType::Min, input)?;
     Ok(())
 }

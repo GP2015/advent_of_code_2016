@@ -1,17 +1,4 @@
-use crate::Part;
 use anyhow::{Result, anyhow};
-
-pub fn run(part: Part, input: &String) -> Result<()> {
-    match part {
-        Part::A => part_a(input)?,
-        Part::B => part_b(input)?,
-        Part::Both => {
-            part_a(input)?;
-            part_b(input)?;
-        }
-    }
-    Ok(())
-}
 
 fn format_instruction(instruction: &str) -> Result<(&str, usize)> {
     let (turn, steps_str) = instruction
@@ -30,7 +17,7 @@ fn update_dir(dir: &mut [isize; 2], turn: &str) -> Result<()> {
     Ok(())
 }
 
-fn part_a(input: &String) -> Result<()> {
+pub fn part_a(input: &String) -> Result<()> {
     let mut pos: [isize; 2] = [0, 0];
     let mut dir: [isize; 2] = [1, 0];
 
@@ -47,7 +34,7 @@ fn part_a(input: &String) -> Result<()> {
     Ok(())
 }
 
-fn part_b(input: &String) -> Result<()> {
+pub fn part_b(input: &String) -> Result<()> {
     let mut pos: [isize; 2] = [0, 0];
     let mut dir: [isize; 2] = [1, 0];
 

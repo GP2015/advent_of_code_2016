@@ -1,30 +1,4 @@
-use crate::Part;
 use anyhow::{Result, anyhow};
-
-pub fn run(part: Part, input: &String) -> Result<()> {
-    match part {
-        Part::A => part_a(input)?,
-        Part::B => part_b(input)?,
-        Part::Both => {
-            part_a(input)?;
-            part_b(input)?;
-        }
-    }
-
-    Ok(())
-}
-
-fn part_a(input: &String) -> Result<()> {
-    print!("Day 2 Part A: ");
-    general(Keypad::type_a(), input)?;
-    Ok(())
-}
-
-fn part_b(input: &String) -> Result<()> {
-    print!("Day 2 Part B: ");
-    general(Keypad::type_b(), input)?;
-    Ok(())
-}
 
 struct Position {
     x: isize,
@@ -139,5 +113,17 @@ fn general(mut keypad: Keypad, input: &String) -> Result<()> {
     }
 
     println!("{}", code);
+    Ok(())
+}
+
+pub fn part_a(input: &String) -> Result<()> {
+    print!("Day 2 Part A: ");
+    general(Keypad::type_a(), input)?;
+    Ok(())
+}
+
+pub fn part_b(input: &String) -> Result<()> {
+    print!("Day 2 Part B: ");
+    general(Keypad::type_b(), input)?;
     Ok(())
 }

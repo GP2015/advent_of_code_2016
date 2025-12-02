@@ -1,20 +1,6 @@
-use crate::Part;
 use anyhow::{Result, anyhow};
 
-pub fn run(part: Part, input: &String) -> Result<()> {
-    match part {
-        Part::A => part_a(input)?,
-        Part::B => part_b(input)?,
-        Part::Both => {
-            part_a(input)?;
-            part_b(input)?;
-        }
-    }
-
-    Ok(())
-}
-
-fn part_a(input: &String) -> Result<()> {
+pub fn part_a(input: &String) -> Result<()> {
     let trimmed_input = input.trim();
 
     let mut index = 0;
@@ -42,7 +28,7 @@ fn part_a(input: &String) -> Result<()> {
 
 const EMPTY: char = ' ';
 
-fn part_b(input: &String) -> Result<()> {
+pub fn part_b(input: &String) -> Result<()> {
     let trimmed_input = input.trim();
 
     let mut index = 0;

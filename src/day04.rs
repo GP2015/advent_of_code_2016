@@ -1,23 +1,9 @@
-use crate::Part;
 use crate::common::{alphabet_index_from_char, char_from_alphabet_index};
 use anyhow::{Result, anyhow};
 use std::{
     fs::File,
     io::{BufWriter, Write},
 };
-
-pub fn run(part: Part, input: &String) -> Result<()> {
-    match part {
-        Part::A => part_a(input)?,
-        Part::B => part_b(input)?,
-        Part::Both => {
-            part_a(input)?;
-            part_b(input)?;
-        }
-    }
-
-    Ok(())
-}
 
 fn formatted_line(line: &str) -> Result<(Vec<&str>, usize, &str)> {
     let mut split_line = line.split("[");
@@ -78,7 +64,7 @@ fn shifted_char(c: char, amount: usize) -> char {
     char_from_alphabet_index(shifted_index)
 }
 
-fn part_a(input: &String) -> Result<()> {
+pub fn part_a(input: &String) -> Result<()> {
     let mut sector_id_sum = 0;
 
     for line in input.trim().lines() {
@@ -93,7 +79,7 @@ fn part_a(input: &String) -> Result<()> {
     Ok(())
 }
 
-fn part_b(input: &String) -> Result<()> {
+pub fn part_b(input: &String) -> Result<()> {
     let mut output_stream = BufWriter::new(File::create("output.txt")?);
 
     for line in input.trim().lines() {

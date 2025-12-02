@@ -1,18 +1,4 @@
-use crate::Part;
 use anyhow::{Result, anyhow};
-
-pub fn run(part: Part, input: &String) -> Result<()> {
-    match part {
-        Part::A => part_a(input)?,
-        Part::B => part_b(input)?,
-        Part::Both => {
-            part_a(input)?;
-            part_b(input)?;
-        }
-    }
-
-    Ok(())
-}
 
 enum SequenceType {
     Supernet,
@@ -67,21 +53,6 @@ fn has_an_abba(parts: &Vec<String>) -> bool {
     false
 }
 
-fn part_a(input: &String) -> Result<()> {
-    let mut count = 0;
-
-    for line in input.trim().lines() {
-        let (supernet, hypernet) = format_ipv7(line)?;
-
-        if has_an_abba(&supernet) && !has_an_abba(&hypernet) {
-            count += 1;
-        }
-    }
-
-    println!("Day 7 Part A: {}", count);
-    Ok(())
-}
-
 fn get_aba_list(parts: &Vec<String>) -> Vec<String> {
     let mut list: Vec<String> = Vec::new();
 
@@ -121,9 +92,22 @@ fn has_bab(bab: &String, parts: &Vec<String>) -> bool {
     false
 }
 
-// fn has_this_
+pub fn part_a(input: &String) -> Result<()> {
+    let mut count = 0;
 
-fn part_b(input: &String) -> Result<()> {
+    for line in input.trim().lines() {
+        let (supernet, hypernet) = format_ipv7(line)?;
+
+        if has_an_abba(&supernet) && !has_an_abba(&hypernet) {
+            count += 1;
+        }
+    }
+
+    println!("Day 7 Part A: {}", count);
+    Ok(())
+}
+
+pub fn part_b(input: &String) -> Result<()> {
     let mut count = 0;
 
     for line in input.trim().lines() {
