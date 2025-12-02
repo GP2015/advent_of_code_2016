@@ -15,14 +15,15 @@ pub fn run(part: Part, input: &String) -> Result<()> {
 }
 
 fn part_a(input: &String) -> Result<()> {
-    let instructions = input.trim().split(", ");
+    let mut pos: [isize; 2] = [0, 0];
+    let mut dir: [isize; 2] = [1, 0];
 
-    let mut pos = [0, 0];
-    let mut dir = [1, 0];
+    for instruction in input.trim().split(", ") {
+        let (turn, steps_str) = instruction
+            .split_at_checked(1)
+            .ok_or(anyhow!("invalid input"))?;
 
-    for instruction in instructions {
-        let (turn, steps_str) = instruction.split_at(1);
-        let steps: i32 = steps_str.parse()?;
+        let steps: usize = steps_str.parse()?;
 
         dir = match turn {
             "R" => [dir[1], -dir[0]],
@@ -31,7 +32,7 @@ fn part_a(input: &String) -> Result<()> {
         };
 
         for i in 0..2 {
-            pos[i] += dir[i] * steps;
+            pos[i] += dir[i] * steps as isize;
         }
     }
 
@@ -40,16 +41,17 @@ fn part_a(input: &String) -> Result<()> {
 }
 
 fn part_b(input: &String) -> Result<()> {
-    let instructions = input.trim().split(", ");
-
-    let mut pos: [i32; 2] = [0, 0];
-    let mut dir = [1, 0];
+    let mut pos: [isize; 2] = [0, 0];
+    let mut dir: [isize; 2] = [1, 0];
 
     let mut past_locations = vec![[0, 0]];
 
-    'main_loop: for instruction in instructions {
-        let (turn, steps_str) = instruction.split_at(1);
-        let steps: i32 = steps_str.parse()?;
+    'main_loop: for instruction in input.trim().split(", ") {
+        let (turn, steps_str) = instruction
+            .split_at_checked(1)
+            .ok_or(anyhow!("invalid input"))?;
+
+        let steps: usize = steps_str.parse()?;
 
         dir = match turn {
             "R" => [dir[1], -dir[0]],
