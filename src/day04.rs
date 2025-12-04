@@ -1,24 +1,20 @@
 use crate::common::{alphabet_index_from_char, char_from_alphabet_index};
-use anyhow::{Result, anyhow};
+
 use std::{
     fs::File,
     io::{BufWriter, Write},
 };
 
-fn formatted_line(line: &str) -> Result<(Vec<&str>, usize, &str)> {
+fn formatted_line(line: &str) -> (Vec<&str>, usize, &str) {
     let mut split_line = line.split("[");
-    let mut name: Vec<&str> = split_line
-        .next()
-        .ok_or(anyhow!("invalid input"))?
-        .split("-")
-        .collect();
-    let sector_id: usize = name.last().ok_or(anyhow!("invalid input"))?.parse()?;
+    let mut name: Vec<&str> = split_line.next().unwrap().split("-").collect();
+    let sector_id: usize = name.last().unwrap().parse().unwrap();
     name.pop();
-    let checksum = &split_line.next().ok_or(anyhow!("invalid input"))?[0..5];
-    Ok((name, sector_id, checksum))
+    let checksum = &split_line.next().unwrap()[0..5];
+    (name, sector_id, checksum)
 }
 
-fn is_real_room(name: &Vec<&str>, checksum: &str) -> Result<bool> {
+fn is_real_room(name: &Vec<&str>, checksum: &str) -> bool {
     let mut max_freq = 0;
     let mut freq = [0; 26];
     for word in name {
@@ -37,25 +33,22 @@ fn is_real_room(name: &Vec<&str>, checksum: &str) -> Result<bool> {
     for current_freq in (1..=max_freq).rev() {
         for alphabet_index in 0..26 {
             if freq[alphabet_index] == current_freq {
-                let checksum_char = checksum
-                    .chars()
-                    .nth(checksum_index)
-                    .ok_or(anyhow!("invalid input"))?;
+                let checksum_char = checksum.chars().nth(checksum_index).unwrap();
 
                 if char_from_alphabet_index(alphabet_index) != checksum_char {
-                    return Ok(false);
+                    return false;
                 }
 
                 checksum_index += 1;
 
                 if checksum_index >= 5 {
-                    return Ok(true);
+                    return true;
                 }
             }
         }
     }
 
-    Ok(false)
+    false
 }
 
 fn shifted_char(c: char, amount: usize) -> char {
@@ -64,32 +57,33 @@ fn shifted_char(c: char, amount: usize) -> char {
     char_from_alphabet_index(shifted_index)
 }
 
-pub fn part_a(input: &String) -> Result<()> {
+pub fn part_a(input: &String) {
     let mut sector_id_sum = 0;
 
     for line in input.trim().lines() {
-        let (name, sector_id, checksum) = formatted_line(line)?;
+        let (name, sector_id, checksum) = formatted_line(line);
 
-        if is_real_room(&name, checksum)? {
+        if is_real_room(&name, checksum) {
             sector_id_sum += sector_id;
         }
     }
 
     println!("Day 4 Part A: {}", sector_id_sum);
-    Ok(())
 }
 
-pub fn part_b(input: &String) -> Result<()> {
-    let mut output_stream = BufWriter::new(File::create("output.txt")?);
+pub fn part_b(input: &String) {
+    let mut output_stream = BufWriter::new(File::create("output.txt").unwrap());
 
     for line in input.trim().lines() {
-        let (name, sector_id, checksum) = formatted_line(line)?;
+        let (name, sector_id, checksum) = formatted_line(line);
 
-        if !is_real_room(&name, checksum)? {
+        if !is_real_room(&name, checksum) {
             continue;
         }
 
-        output_stream.write((sector_id.to_string() + " - ").as_bytes())?;
+        output_stream
+            .write((sector_id.to_string() + " - ").as_bytes())
+            .unwrap();
 
         for word in name {
             let shifted_bytes: Vec<u8> = word
@@ -97,15 +91,13 @@ pub fn part_b(input: &String) -> Result<()> {
                 .map(|c| shifted_char(c, sector_id) as u8)
                 .collect();
 
-            output_stream.write(&shifted_bytes)?;
-            output_stream.write(b" ")?;
+            output_stream.write(&shifted_bytes).unwrap();
+            output_stream.write(b" ").unwrap();
         }
 
-        output_stream.write(b"\n")?;
+        output_stream.write(b"\n").unwrap();
     }
 
     println!("Day 4 Part B: See list of room names in output.txt");
-    output_stream.flush()?;
-
-    Ok(())
+    output_stream.flush().unwrap();
 }

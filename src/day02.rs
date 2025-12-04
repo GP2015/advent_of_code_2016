@@ -1,5 +1,3 @@
-use anyhow::{Result, anyhow};
-
 struct Position {
     x: isize,
     y: isize,
@@ -89,7 +87,7 @@ impl Keypad {
     }
 }
 
-fn general(mut keypad: Keypad, input: &String) -> Result<()> {
+fn general(mut keypad: Keypad, input: &String) {
     let mut code = String::new();
 
     for instruction in input.lines() {
@@ -99,7 +97,7 @@ fn general(mut keypad: Keypad, input: &String) -> Result<()> {
                 'R' => keypad.shift(Direction::Right),
                 'U' => keypad.shift(Direction::Up),
                 'D' => keypad.shift(Direction::Down),
-                _ => return Err(anyhow!("invalid character in input: {}", c)),
+                _ => panic!(),
             }
         }
 
@@ -107,17 +105,14 @@ fn general(mut keypad: Keypad, input: &String) -> Result<()> {
     }
 
     println!("{}", code);
-    Ok(())
 }
 
-pub fn part_a(input: &String) -> Result<()> {
+pub fn part_a(input: &String) {
     print!("Day 2 Part A: ");
-    general(Keypad::type_a(), input)?;
-    Ok(())
+    general(Keypad::type_a(), input);
 }
 
-pub fn part_b(input: &String) -> Result<()> {
+pub fn part_b(input: &String) {
     print!("Day 2 Part B: ");
-    general(Keypad::type_b(), input)?;
-    Ok(())
+    general(Keypad::type_b(), input);
 }

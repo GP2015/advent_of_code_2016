@@ -1,6 +1,4 @@
-use anyhow::{Result, anyhow};
-
-pub fn part_a(input: &String) -> Result<()> {
+pub fn part_a(input: &String) {
     let trimmed_input = input.trim();
 
     let mut index = 0;
@@ -11,7 +9,7 @@ pub fn part_a(input: &String) -> Result<()> {
         let digest = format!("{:x}", md5::compute(hash_input));
 
         if &digest[0..5] == "00000" {
-            let c = digest.chars().nth(5).ok_or(anyhow!("invalid input"))?;
+            let c = digest.chars().nth(5).unwrap();
             password.push(c);
 
             if password.len() == 8 {
@@ -23,12 +21,11 @@ pub fn part_a(input: &String) -> Result<()> {
     }
 
     println!("Day 5 Part A: {}", password);
-    Ok(())
 }
 
 const EMPTY: char = ' ';
 
-pub fn part_b(input: &String) -> Result<()> {
+pub fn part_b(input: &String) {
     let trimmed_input = input.trim();
 
     let mut index = 0;
@@ -39,12 +36,12 @@ pub fn part_b(input: &String) -> Result<()> {
         let digest = format!("{:x}", md5::compute(hash_input));
 
         if &digest[0..5] == "00000" {
-            let pos_char = digest.chars().nth(5).ok_or(anyhow!("invalid input"))?;
+            let pos_char = digest.chars().nth(5).unwrap();
 
             let pos = (pos_char as usize).wrapping_sub('0' as usize);
             if pos < 8 {
                 if password[pos] == EMPTY {
-                    password[pos] = digest.chars().nth(6).ok_or(anyhow!("invalid input"))?;
+                    password[pos] = digest.chars().nth(6).unwrap();
                 }
 
                 let mut password_finished = true;
@@ -65,5 +62,4 @@ pub fn part_b(input: &String) -> Result<()> {
     }
 
     println!("Day 5 Part B: {}", password.iter().collect::<String>());
-    Ok(())
 }

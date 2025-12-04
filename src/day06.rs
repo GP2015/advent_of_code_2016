@@ -1,33 +1,29 @@
 use crate::common::{alphabet_index_from_char, char_from_alphabet_index};
-use anyhow::{Result, anyhow};
 
 enum BoundType {
     Min,
     Max,
 }
 
-fn get_frequency_table(input: &String) -> Result<Vec<Vec<usize>>> {
-    let line_length = input.lines().next().ok_or(anyhow!("invalid input"))?.len();
+fn get_frequency_table(input: &String) -> Vec<Vec<usize>> {
+    let line_length = input.lines().next().unwrap().len();
 
     let mut table = vec![vec![0; 26]; line_length];
 
     for line in input.trim().lines() {
         for line_index in 0..line.len() {
-            let c = line
-                .chars()
-                .nth(line_index)
-                .ok_or(anyhow!("invalid input"))?;
+            let c = line.chars().nth(line_index).unwrap();
 
             let alphabet_index = alphabet_index_from_char(c);
             table[line_index][alphabet_index] += 1;
         }
     }
 
-    Ok(table)
+    table
 }
 
-fn general(bound_type: BoundType, input: &String) -> Result<()> {
-    let table = get_frequency_table(input)?;
+fn general(bound_type: BoundType, input: &String) {
+    let table = get_frequency_table(input);
 
     let bound: Vec<usize> = table
         .iter()
@@ -53,17 +49,14 @@ fn general(bound_type: BoundType, input: &String) -> Result<()> {
     }
 
     println!("{}", message);
-    Ok(())
 }
 
-pub fn part_a(input: &String) -> Result<()> {
+pub fn part_a(input: &String) {
     print!("Day 6 Part A: ");
-    general(BoundType::Max, input)?;
-    Ok(())
+    general(BoundType::Max, input);
 }
 
-pub fn part_b(input: &String) -> Result<()> {
+pub fn part_b(input: &String) {
     print!("Day 6 Part B: ");
-    general(BoundType::Min, input)?;
-    Ok(())
+    general(BoundType::Min, input);
 }

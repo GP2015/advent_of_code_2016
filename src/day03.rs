@@ -1,5 +1,3 @@
-use anyhow::{Result, anyhow};
-
 fn is_triangle(sides: &[usize]) -> bool {
     !(sides[0] + sides[1] <= sides[2]
         || sides[0] + sides[2] <= sides[1]
@@ -18,25 +16,20 @@ fn format_input(input: &String) -> Vec<Vec<usize>> {
         .collect()
 }
 
-pub fn part_a(input: &String) -> Result<()> {
+pub fn part_a(input: &String) {
     let input: Vec<Vec<usize>> = format_input(input);
     let mut count = 0;
 
     for tri in input {
-        if tri.len() != 3 {
-            return Err(anyhow!("invalid character in input"));
-        }
-
         if is_triangle(tri.as_slice()) {
             count += 1;
         }
     }
 
     println!("Day 3 Part A: {}", count);
-    Ok(())
 }
 
-pub fn part_b(input: &String) -> Result<()> {
+pub fn part_b(input: &String) {
     let input: Vec<Vec<usize>> = format_input(input);
     let mut count = 0;
 
@@ -53,5 +46,4 @@ pub fn part_b(input: &String) -> Result<()> {
     }
 
     println!("Day 3 Part B: {}", count);
-    Ok(())
 }

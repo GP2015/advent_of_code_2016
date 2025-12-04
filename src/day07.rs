@@ -1,11 +1,9 @@
-use anyhow::{Result, anyhow};
-
 enum SequenceType {
     Supernet,
     Hypernet,
 }
 
-fn format_ipv7(line: &str) -> Result<(Vec<String>, Vec<String>)> {
+fn format_ipv7(line: &str) -> (Vec<String>, Vec<String>) {
     let mut supernet = vec![String::new()];
     let mut hypernet = vec![String::new()];
 
@@ -29,12 +27,12 @@ fn format_ipv7(line: &str) -> Result<(Vec<String>, Vec<String>)> {
                 SequenceType::Hypernet => &mut hypernet,
             }
             .last_mut()
-            .ok_or(anyhow!("invalid input"))?
+            .unwrap()
             .push(line_char);
         }
     }
 
-    Ok((supernet, hypernet))
+    (supernet, hypernet)
 }
 
 fn has_an_abba(parts: &Vec<String>) -> bool {
@@ -92,11 +90,11 @@ fn has_bab(bab: &String, parts: &Vec<String>) -> bool {
     false
 }
 
-pub fn part_a(input: &String) -> Result<()> {
+pub fn part_a(input: &String) {
     let mut count = 0;
 
     for line in input.trim().lines() {
-        let (supernet, hypernet) = format_ipv7(line)?;
+        let (supernet, hypernet) = format_ipv7(line);
 
         if has_an_abba(&supernet) && !has_an_abba(&hypernet) {
             count += 1;
@@ -104,14 +102,13 @@ pub fn part_a(input: &String) -> Result<()> {
     }
 
     println!("Day 7 Part A: {}", count);
-    Ok(())
 }
 
-pub fn part_b(input: &String) -> Result<()> {
+pub fn part_b(input: &String) {
     let mut count = 0;
 
     for line in input.trim().lines() {
-        let (supernet, hypernet) = format_ipv7(line)?;
+        let (supernet, hypernet) = format_ipv7(line);
 
         for aba in get_aba_list(&supernet) {
             let bab = bab_from_aba(&aba);
@@ -124,5 +121,4 @@ pub fn part_b(input: &String) -> Result<()> {
     }
 
     println!("Day 7 Part B: {}", count);
-    Ok(())
 }
